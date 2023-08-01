@@ -47,7 +47,7 @@ R MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop
 | Name | Description |
 | :--: | :---------: | 
 | `inputFile` | The full path to the input matrix |
-| `fromIndividualToPop`  | How to obtain the MOI distribution at the population levels from individual estimates, pool the maximum a posteriori MOI estimate for each sampled individual or use the technique called mixture distribution, 'pool' vs. 'mixtureDist'|
+| `fromIndividualToPop`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, 'pool' vs. 'mixtureDist'|
 | `saveDir`  | Path to the directory where the output will be saved |
 
 The above example command will output a list of objects. When set the argument **fromIndividualToPop** to be 'pool', the output list contains two objects, i.e., one matrix recording the maximum a posteriori MOI estimate for each sampled individual, and a second matrix recording the probability distribution at the population level. For the matrix at the individual level, the **prob** column stores the actual probability of MOI = maxAPosMOIEst. For example:
