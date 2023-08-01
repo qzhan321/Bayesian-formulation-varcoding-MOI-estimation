@@ -38,19 +38,20 @@ The other script **[derive-prob-s-given-MOI.R](https://github.com/qzhan321/Bayes
 | `RS1MRS1967.MID88.88.P6.dec15`  | 95 |
 
 #### Pre-processing
-We recommend to perform a preprocessing step on the input matrix, removing isolates with either fewer than 10 or more than 900 non-upsA DBLα types sequenced. 
+We recommend to perform a preprocessing step on the input matrix, removing isolates with either fewer than 10 or more than 900 non-upsA DBLα types sequenced. MOI estimates are capped at 20.
 
 #### Example command
-R MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop 'pool' -saveDir '/path/to/directory/'
+R MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop 'pool' -utilFile '/path/to/directory/utilFile' -saveDir '/path/to/directory/'
 
 **Command arguments**
 | Name | Description |
 | :--: | :---------: | 
 | `inputFile` | The full path to the input matrix |
 | `fromIndividualToPop`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, 'pool' vs. 'mixtureDist'|
+| `utilFile`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)**|
 | `saveDir`  | Path to the directory where the output will be saved |
 
-The above example command will output a list of objects. When set the argument **fromIndividualToPop** to be 'pool', the output list contains two objects, i.e., one matrix recording the maximum a posteriori MOI estimate for each sampled individual, and a second matrix recording the probability distribution at the population level. For the matrix at the individual level, the **prob** column stores the actual probability of MOI = maxAPosMOIEst. For example:
+The above example command will output a list of objects. When set the argument **fromIndividualToPop** to be 'pool', the output list contains two objects, i.e., one matrix recording the maximum a posteriori MOI estimate for each sampled individual, and a second matrix recording the probability distribution at the population level. The matrix at the individual level looks like the following, with a **prob** column storing the actual probability of MOI = maxAPosMOIEst (the maximum a posteriori MOI estimate). 
 | HostID | NumDBLαTypes | maxAPosMOIEst | prob |
 | :--: | :---------: | :--: | :--: |
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 2 | 0.9870216 |
@@ -81,7 +82,7 @@ Population level:
 | 20 | 0.002919708 |
 
 When set the argument **fromIndividualToPop** to be 'mixtureDist', the output list again contains two objects, i.e., one matrix recording the full probability distribution of MOI for individual hosts, and another one recording the probability distribution at the population level.
-Individual level:
+The matrix for individual hosts (picking one host as an example):
 | HostID | NumDBLαTypes | MOI | prob |
 | :--: | :---------: | :--: | :--: |
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 1 | 0 |
@@ -129,13 +130,4 @@ Population level:
 | 19 | 0.0006565408 |
 | 20 | 0.0020301102|
 
-MOI distributions at the population level obtained from the two ways differ slightly, and the difference is non-significant with the example datasets as determined by the Kolmogorov-Smirnov Test. 
-
-
-
-
-
-
-
-
-  
+MOI distributions at the population level obtained from the two approaches differ slightly. But the difference is non-significant with the example datasets from northern Ghana as determined by the Kolmogorov-Smirnov Test. 
