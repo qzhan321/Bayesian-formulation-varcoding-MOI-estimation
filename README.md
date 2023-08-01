@@ -52,13 +52,13 @@ R MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop
 | `utilFile`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)**|
 | `saveDir`  | Path to the directory where the output will be saved |
 
-The above example command will output a list of objects. When set the argument **fromIndividualToPop** to be 'pool', the output list contains two objects, i.e., one matrix recording the maximum a posteriori MOI estimate for each sampled individual, and a second matrix recording the probability distribution at the population level. The matrix at the individual level looks like the following, with a **prob** column storing the actual probability of MOI = maxAPosMOIEst (the maximum a posteriori MOI estimate). 
+The above example command will output a list of two objects. When set the argument **fromIndividualToPop** to be 'pool', the output list contains one matrix which records the maximum a posteriori MOI estimate for each sampled individual, and a second matrix which records the probability distribution at the population level. The matrix at the individual level looks like the example below, with a **prob** column storing the actual probability of MOI = maxAPosMOIEst (the maximum a posteriori MOI estimate). 
 | HostID | NumDBLαTypes | maxAPosMOIEst | prob |
 | :--: | :---------: | :--: | :--: |
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 2 | 0.9870216 |
 | `RS1MRS1967.MID88.88.P6.dec15`  | 95 | 3 | 0.8315176 |
 
-Population level:
+The matrix at the population level:
 | MOI | prob |
 | :--: | :--: |
 | 1 | 0.108029197 |
@@ -82,8 +82,8 @@ Population level:
 | 19 | 0 |
 | 20 | 0.002919708 |
 
-When set the argument **fromIndividualToPop** to be 'mixtureDist', the output list again contains two objects, i.e., one matrix recording the full probability distribution of MOI for individual hosts, and another one recording the probability distribution at the population level.
-The matrix for individual hosts (picking one host as an example):
+When set the argument **fromIndividualToPop** to be 'mixtureDist', the output list again contains two matrices, one recording the full probability distribution of MOI for individual hosts, and a second one recording the probability distribution at the population level.
+The matrix for individual hosts (only listing one host as an example):
 | HostID | NumDBLαTypes | MOI | prob |
 | :--: | :---------: | :--: | :--: |
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 1 | 0 |
@@ -107,7 +107,7 @@ The matrix for individual hosts (picking one host as an example):
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 19 | 0 |
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 20 | 0 |
 
-Population level:
+The matrix at the population level:
 | MOI | prob |
 | :--: | :--: |
 | 1 | 0.0994607006 |
