@@ -16,11 +16,11 @@ The hyper-diversity of *var*(DBLα types) and limited repertoire overlap of the 
 Here, we extend the method to a Bayesian formulation which accounts for the measurement error in the repertoire size introduced by targeted PCR
 and amplicon sequencing of *var* genes in an infection (subsampling of *var* genes) and estimate the posterior distribution for each sampled individual for the probability of different MOI values. From individual posterior distributions, we can then obtain the estimated MOI frequency distribution for the population as a whole.
 
-- The repertoire size distribution
+- **The repertoire size distribution**
 P(s|MOI=1): the distribution of the number of non-upsA DBLα types sequenced given MOI = 1, which is empirically available.
-- Serial convolutions of this distribution: from P(s|MOI=1) to P(s|MOI=2), P(s|MOI=3), etc.
-- Bayes’ rule to get P(MOI=i|s), which requires the specification of a prior distribution of MOI. We examined negative binomial distributions with a wide range of parameter value and a uniform distribution. The MOI estimation is not sensitive to the prior distribution of MOI. We use a uniform prior in this work. 
-- From individual to the population level MOI distribution, we either pool the maximum a posteriori MOI estimate for each sampled individual, or use the technique called mixture distribution.
+- **Serial convolutions** of this distribution: from P(s|MOI=1) to P(s|MOI=2), P(s|MOI=3), etc.
+- **Bayes’ rule** to get P(MOI=i|s), which requires the specification of a prior distribution of MOI. We examined negative binomial distributions with a wide range of parameter value and a uniform distribution. The MOI estimation is not sensitive to the prior distribution of MOI. We use a uniform prior in this work. 
+- From individual to the population level MOI distribution, we either **pool the maximum a posteriori MOI estimate for each sampled individual**, or **use the technique called mixture distribution**.
 
 ## Applying the Bayesian Formulation of MOI estimation to New Datasets
 There are two R scripts in the folder **[scripts](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/tree/main/scripts)**.  
