@@ -31,7 +31,7 @@ The other script **[derive-prob-s-given-MOI.R](https://github.com/qzhan321/Bayes
 ### Running the script
 **MOI_estimation.R** estimates MOI values for individual hosts given their number of non-upsA DBLα types. It takes a matrix as its input. The matrix has two columns, with the first one being host IDs, or identifiers of hosts, and the second column being the number of **non-upsA** DBLα types sequenced and typed in each individual corresponding host. Below is an example of the first two rows of an input matrix:
 
-| HostID | NumDBLαTypes |
+| HostID | NumDBLaTypes |
 | :--: | :---------: | 
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 |
 | `RS1MRS1967.MID88.88.P6.dec15`  | 95 |
