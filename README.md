@@ -43,8 +43,7 @@ We recommend to perform a preprocessing step on the input matrix, removing isola
 ```R
 R MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop 'pool' -utilFile '/path/to/directory/utilFile' -saveDir '/path/to/directory/'
 ```
-
-**Command arguments**
+#### Command arguments
 | Name | Description |
 | :--: | :---------: | 
 | `inputFile` | The full path to the input matrix: both .csv and .txt file formats are acceptable |
@@ -52,6 +51,7 @@ R MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop
 | `utilFile`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)**|
 | `saveDir`  | Path to the directory where the output will be saved |
 
+#### Output
 The above example command will output a list of two objects. When set the argument **fromIndividualToPop** to be 'pool', the output list contains one matrix which records the maximum a posteriori MOI estimate for each sampled individual, and a second matrix which records the probability distribution at the population level. The matrix at the individual level looks like the example below, with a **prob** column storing the actual probability of MOI = maxAPosMOIEst (the maximum a posteriori MOI estimate). 
 | HostID | NumDBLαTypes | maxAPosMOIEst | prob |
 | :--: | :---------: | :--: | :--: |
