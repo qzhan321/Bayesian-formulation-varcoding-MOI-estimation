@@ -1,144 +1,83 @@
-rm(list = ls())
-suppressPackageStartupMessages({
-  library(partitions)
-  library(ggplot2)
-})
-readDir <- ""
-f <- read.table(paste0(readDir, "NbVarGenes_MOI1_upsBC_AllSurveys_Weight.txt"), header = T)
-hist(rep(f$DBLa_upsBC_rep_size, f$n))
-
-# good sample
-# f <- read.table(paste0(readDir, "NbVarGenes_3D7_upsBC_Weight.txt"), header = T)
-# hist(rep(f$DBLa_upsBC_rep_size, f$n))
-
-a <- min(f$DBLa_upsBC_rep_size)
-b <- max(f$DBLa_upsBC_rep_size)
-s_single <- max(45, b)
-
-wd <- ""
-s_givenMOI_list <- list()
-
-p <- f$n/sum(f$n)
-names(p) <- as.character(f$DBLa_upsBC_rep_size)
-
-s_givenMOI_list[[1]] <- p
-MOI_max <- 20
-
-for (MOI in 2:MOI_max) {
-  temp1 <- s_givenMOI_list[[1]]
-  temp2 <- s_givenMOI_list[[MOI-1]]
-  
-  s_givenMOI_test <- rep(NA, s_single*MOI-a*MOI+1)
-  names(s_givenMOI_test) <- as.character(seq(a*MOI, s_single*MOI))
-  
-  for (s in c(a*MOI):(s_single*MOI)) {
-    tempAll <- 0
-    for (bb in a:s_single) {
-      temp <- temp1[as.character(bb)] * temp2[as.character(s-bb)]
-      if(!is.na(temp)) {
-        tempAll <- tempAll + temp
-      }
-    }
-    s_givenMOI_test[[as.character(s)]] <- tempAll
-  }
-  s_givenMOI_list[[MOI]] <- s_givenMOI_test
-}
-
-saveDir <- ""
-save(s_givenMOI_list, file = paste0(saveDir, "s_givenMOI_list"))
-
-
-
-
-
-
 rm(list=ls())
 suppressPackageStartupMessages({
-  library(ggplot2)
   library(dplyr)
-  library(cowplot)
-  library(stringr)
+  library(optparse)
 })
 
-readDirEpi <- ""
-epi <- read.csv(paste0(readDirEpi, "Ghana_Survey_Merged_Epi_MOI_S1_S7_070721_UChicago_080822.csv"), header = T, row.names = 1)
-epi$SeqID <- str_replace(epi$SeqID, "-", ".")
+option_list = list(
+  make_option(c("--input"), type="character", default=NULL,
+              help="path and name of the input file", metavar="character"),
+  make_option(c("--aggregate"), type="character", default="pool",
+              help="how to obtain the MOI distribution at the population level from individual MOI estimates", metavar="character"),
+  make_option(c("--util"), type="character", default="./s_givenMOI_list",
+              help="the list which stores the probability distribution of the number of non-upsA DBLa types given any MOI", metavar="character"),
+  make_option(c("--output"), type="character", default="./out.txt",
+              help="path and name of the output file [default= %default]", metavar="character")
+);
 
-readDir <- ""
-filesSub <- c("survey_1.csv", "survey_2.csv", "survey_3.csv", "survey_4.csv", "survey_5.csv", "survey_6.csv", "survey_7.csv")
-# years <- c(2012, 2014, 2015, 2017)
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
+print(opt$aggregate)
 
-load("s_givenMOI_list")
-p_s_givenMOI <- s_givenMOI_list
+a <- 10 # lowest number of non-upsA DBLa types sequenced in a single infection, from the empirical repertoire size distribution.
+b <- 45 # highest number of non-upsA DBLa types sequenced in a single infection, from the empirical repertoire size distribution
 MOI_max <- 20
-names(p_s_givenMOI) <- as.character(1:MOI_max)
+
+inputFile <- read.csv(opt$input, header = T, row.names = NULL)
+print(head(inputFile))
+utilFile <- opt$util
+load(utilFile)
+p_s_givenMOI <- s_givenMOI_list
 
 MOI_priors <- rep(1/MOI_max, MOI_max)
 names(MOI_priors) <- as.character(1:MOI_max)
 
-f <- read.table(paste0("NbVarGenes_MOI1_upsBC_AllSurveys_Weight.txt"), header = T)
-
-a <- min(f$DBLa_upsBC_rep_size)
-b <- max(f$DBLa_upsBC_rep_size)
-
-p <- f$n/sum(f$n)
-p <- f$weigth_n
-names(p) <- as.character(f$DBLa_upsBC_rep_size)
-
-MOI_max <- 20
+p <- p_s_givenMOI[[1]]
 s_single <- max(45, b)
 
-for (i in 1:length(filesSub)) {
-  file <- filesSub[i]
-  # year <- years[i]
-  
-  file2 <- strsplit(file, split = "\\.")
-  survey <- file2[[1]][1]
-  
-  print(survey)
-  file_read <- read.csv(paste0(readDir, file), header = T, row.names = 1)
-  
-  s_temp <- rowSums(file_read == 1)
-  # MOI <- file_read$MOI
-  names <- names(s_temp)
-  names(s_temp) <- NULL
-  # names(MOI) <- NULL
-  dfAll <- NULL
-  for (j in 1:length(s_temp)) {
-    s <- s_temp[j]
-    MOIs_s <- rep(NA, MOI_max)
-    numerator <- 0
-    for (b in 1:MOI_max) {
-      if (!is.na(p_s_givenMOI[[as.character(b)]][as.character(s)])) {
-        numerator <- numerator + p_s_givenMOI[[as.character(b)]][as.character(s)]*MOI_priors[as.character(b)]
-      }
-    }
-    
-    if (numerator == 0) {
-      p_c_givens_all <- rep(0, length(1:MOI_max))
-    } else {
-      p_c_givens_all <- rep(NA, length(1:MOI_max))
-      # names(p_c_givens_all) <- as.character(1:MOI_max)
-      for (c in 1:MOI_max) {
-        if (!is.na(p_s_givenMOI[[as.character(c)]][as.character(s)])) {
-          temp <- p_s_givenMOI[[as.character(c)]][as.character(s)]*MOI_priors[as.character(c)]/numerator
-          names(temp) <- NULL
-        } else {
-          temp <- 0
-        }
-        p_c_givens_all[c] <- temp
-      }
-    }
-    
-    age <- epi %>% filter(SeqID == names[j])
-    age <- age$AgeGroups2
-    # plot(x=as.numeric(names(p_c_givens_all)), y=p_c_givens_all)
-    # df <- data.frame("p" = max(p_c_givens_all), "MOI" = c(1:MOI_max)[which.max(p_c_givens_all)], "numDBLaTypes" = s, "host_id" = names[j],
-    #                  "survey" = survey, "age" = age)
-    df <- data.frame("p" = p_c_givens_all, "MOI" = 1:MOI_max, "numDBLaTypes" = s, "host_id" = names[j],
-                     "survey" = survey, "age" = age)
-    dfAll <- rbind(dfAll, df)
+s_temp <- inputFile$NumDBLaTypes
+names <- inputFile$HostID
+
+dfAll <- NULL
+for (j in 1:length(s_temp)) {
+  s <- s_temp[j]
+  if (s < 10 | s > 900) {
+    warning("The number of non-upsA DBLa type is either fewer than 10 or greater than 900. Preprocess the input file to filter those isolates out.")
   }
-  save(dfAll, file = paste0("surveysMOI/", survey))
+  
+  numerator <- 0
+  for (b in 1:MOI_max) {
+    if (!is.na(p_s_givenMOI[[as.character(b)]][as.character(s)])) {
+      numerator <- numerator + p_s_givenMOI[[as.character(b)]][as.character(s)]*MOI_priors[as.character(b)]
+    }
+  }
+  
+  stopifnot(numerator != 0)
+  
+  p_c_givens_all <- rep(NA, length(1:MOI_max))
+  for (c in 1:MOI_max) {
+    if (!is.na(p_s_givenMOI[[as.character(c)]][as.character(s)])) {
+      temp <- p_s_givenMOI[[as.character(c)]][as.character(s)]*MOI_priors[as.character(c)]/numerator
+      names(temp) <- NULL
+    } else {
+      temp <- 0
+    }
+    p_c_givens_all[c] <- temp
+  }
+  
+  if (opt$aggregate == "pool") {
+    df <- data.frame("p" = max(p_c_givens_all), "MOI" = c(1:MOI_max)[which.max(p_c_givens_all)], "NumDBLaTypes" = s, "HostID" = names[j])
+  } else if (opt$aggregate == "mixtureDist") {
+    df <- data.frame("p" = p_c_givens_all, "MOI" = 1:MOI_max, "numDBLaTypes" = s, "HostID" = names[j])
+  }
+  dfAll <- rbind(dfAll, df)
 }
 
+if (opt$aggregate == "pool") {
+  dfAllPop <- dfAll %>% group_by(MOI) %>% summarise("n" = n()) %>% mutate("n_total" = sum(n), "prob" = n/n_total) %>% select(MOI, prob)
+} else if (opt$aggregate == "mixtureDist") {
+  dfAllPop <- dfAll %>% group_by(MOI) %>% summarise("n" = sum(p)) %>% mutate("n_total" = sum(n), "prob" = n/n_total)
+}
+outputList <- list("indLevel" = dfAll,
+                   "popLevel" = dfAllPop)
+save(outputList, file = opt$output)
