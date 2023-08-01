@@ -1,17 +1,16 @@
 # Bayesian-formulation-varcoding-MOI-estimation
 
 ## Contents
-* [Overview](#Overview)
-* [varcoding for MOI Estimation and Bayesian Formulation](#varcoding-for-MOI-Estimation-and-Bayesian-Formulation)
-* [Applying the Bayesian Formulation to New Dataset](#Applying-the-Bayesian-Formulation-of-MOI-Estimation-to-New-Datasets)
+* [Overview and Background](#Overview-and-Background)
+* [Applying the Bayesian Formulation of MOI Estimation to New Datasets](#Applying-the-Bayesian-Formulation-of-MOI-Estimation-to-New-Datasets)
 
 
-## Overview
+## Overview and Background
 We summarize the main steps of a Bayesian approach for MOI (multiplicity of infection) estimation, and more details can be found in [Tiedje K.E., Zhan Q., Ruybal-Pesántez S., Tonkin-Hill G., He Q., Tan M.H., Argyropoulos D.C., Deed S.L., Ghansah A., Bangre O., Oduro A.R., Koram K.A., Pascual M., Day K.P., 2023. Measuring changes in Plasmodium falciparum var census population size and structure in response to sequential malaria control interventions. medRxiv. https://doi.org/10.1101/2023.05.18.23290210.](https://www.medrxiv.org/content/early/2023/05/19/2023.05.18.23290210.full.pdf) 
 
 The multiplicity of infection (MOI), defined as the number of genetically distinct parasite strains co-infecting a host, is one key epidemiological parameter for measuring malaria transmission and evaluating malaria interventions. Estimating MOI remains challenging especially in high-transmission endemic settings where individuals typically carry multiple co-occurring infections, recently reviewed in [Labbé et al., 2023](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010816).   
 
-## varcoding for MOI Estimation and Bayesian Formulation
+### varcoding for MOI Estimation and Bayesian Formulation
 The hyper-diversity of *var*(DBLα types) and limited repertoire overlap of the *var* multigene family encoding the major *Plasmodium falciparum* blood-stage antigen *PfEMP*1 provide a viable solution for MOI estimation. A constant repertoire size or number of non-upsA DBLα types in a parasite genome can be used to convert the number of types sequenced in an isolate to its estimated MOI ([Ruybal-Pesántez et al., 2022](https://www.sciencedirect.com/science/article/pii/S0020751922000030?via%3Dihub); [Tiedje et al., 2022](https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0000285)).
 
 Here, we extend the method to a Bayesian formulation which accounts for the measurement error in the repertoire size introduced by targeted PCR
