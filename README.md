@@ -1,7 +1,7 @@
 # Bayesian-formulation-varcoding-MOI-estimation
 
 ## Contents
-* [Overview](#Overview)
+* [Overview](#-Overview)
 
 
 ## Overview
