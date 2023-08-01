@@ -24,7 +24,7 @@ P(s|MOI=1): the distribution of the number of non-upsA DBLα types sequenced giv
 - From individual to the population level MOI distribution, we either pool the maximum a posteriori MOI estimate for each sampled individual, or use the technique called mixture distribution.
 
 ## Applying the Bayesian Formulation to New Dataset
-
+There are two R scripts in the folder **[scripts](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/tree/main/scripts)**. 
 
 
 
