@@ -47,7 +47,7 @@ We can write console output to a text file by adding the following at the end of
 ```bash
 >consoleOutput.txt
 ```
-Example Command 
+#### Example Command 
 ```bash
 Rscript MOI_estimation.R --i '/Users/John/Downloads/survey_1.csv' --p 'pool' --u '/Users/John/Downloads/s_givenMOI_list' --o '/Users/John/Downloads/survey_1_MOI.RData' >consoleOutput.txt
 ```
