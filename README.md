@@ -2,6 +2,8 @@
 
 ## Contents
 * [Overview](#-Overview)
+* [varcoding for MOI Estimation and Bayesian Formulation](#-varcoding-for-MOI-Estimation-and-Bayesian-Formulation)
+* [Applying the Bayesian Formulation to New Dataset](#-Applying-the-Bayesian-Formulation-to-New-Dataset)
 
 
 ## Overview
@@ -9,7 +11,7 @@ We summarize the main steps of Bayesian approach for MOI (multiplicity of infect
 
 The multiplicity of infection (MOI), defined as the number of genetically distinct parasite strains co-infecting a host, is one key epidemiological parameter for measuring malaria transmission and evaluating malaria interventions. Estimating MOI remains challenging especially in high-transmission endemic settings where individuals typically carry multiple co-occurring infections, recently reviewed in [Labbé, F., He, Q., Zhan, Q., Tiedje, K.E., Argyropoulos, D.C., Tan, M.H., Ghansah, A., Day, K.P., Pascual, M., 2023. Neutral vs. non-neutral genetic footprints of Plasmodium falciparum multiclonal infections. PLOS Computational Biology 19, e1010816. https://doi.org/10.1371/journal.pcbi.1010816](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010816).   
 
-## varcoding for MOI estimation and Bayesian formulation
+## varcoding for MOI Estimation and Bayesian Formulation
 The hyper-diversity of *var*(DBLα types) and limited repertoire overlap of the *var* multigene family encoding the major *Plasmodium falciparum* blood-stage antigen *PfEMP*1 provide a viable solution for MOI estimation. A constant repertoire size or number of DBLα types in a parasite genome can be used to convert the number of types sequenced in an isolate to its estimated MOI ([Ruybal-Pesántez et al., 2022](https://www.sciencedirect.com/science/article/pii/S0020751922000030?via%3Dihub); [Tiedje et al., 2022](https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0000285)).
 
 Here, we extend the method to a Bayesian formulation which accounts for the measurement error in the repertoire size introduced by targeted PCR
@@ -21,7 +23,7 @@ P(s|MOI=1): the distribution of the number of non-upsA DBLα types sequenced giv
 - Bayes’ rule to get P(MOI=i|s), which requires the specification of a prior distribution of MOI. We examined negative binomial distributions with a wide range of parameter value and a uniform distribution. The MOI estimation is not sensitive to the prior distribution of MOI. We use a uniform prior in this work. 
 - From individual to the population level MOI distribution, we either pool the maximum a posteriori MOI estimate for each sampled individual, or use the technique called mixture distribution.
 
-## Applying the Bayesian formulation to your dataset
+## Applying the Bayesian Formulation to New Dataset
 
 
 
