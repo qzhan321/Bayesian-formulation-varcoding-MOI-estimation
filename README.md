@@ -41,7 +41,7 @@ We recommend to perform a preprocessing step on the input matrix, removing isola
 
 #### Example command
 ```bash
-Rscript MOI_estimation.R --inputFile 'path/to/directory/inputFile' --fromIndividualToPop 'pool' --utilFile '/path/to/directory/utilFile' --saveDir '/path/to/directory/'
+Rscript MOI_estimation.R --i 'path/to/directory/inputFile' --p 'pool' --u '/path/to/directory/utilFile' --o '/path/to/directory/'
 ```
 We can write console output to a text file by adding the following at the end of the example command:
 ```bash
@@ -52,10 +52,10 @@ We can write console output to a text file by adding the following at the end of
 #### Command arguments
 | Name | Description |
 | :--: | :---------: | 
-| `inputFile` | The full path to the input matrix: both .csv and .txt file formats are acceptable |
-| `fromIndividualToPop`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, 'pool' vs. 'mixtureDist'|
-| `utilFile`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)**|
-| `saveDir`  | Path to the directory where the output will be saved |
+| `i` | The full path to the input matrix: both .csv and .txt file formats are acceptable |
+| `p`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, 'pool' vs. 'mixtureDist'|
+| `u`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)** |
+| `o`  | Path to the directory where the output will be saved |
 
 #### Output
 The above example command will output a list of two objects. When set the argument **fromIndividualToPop** to be 'pool', the output list contains one matrix which records the maximum a posteriori MOI estimate for each sampled individual, and a second matrix which records the probability distribution at the population level. The matrix at the individual level looks like the example below, with a **prob** column storing the actual probability of MOI = maxAPosMOIEst (the maximum a posteriori MOI estimate). 
