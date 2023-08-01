@@ -40,7 +40,9 @@ The other script **[derive-prob-s-given-MOI.R](https://github.com/qzhan321/Bayes
 We recommend to perform a preprocessing step on the input matrix, removing isolates with either fewer than 10 or more than 900 non-upsA DBLα types sequenced. MOI estimates are capped at 20.
 
 #### Example command
+```R
 R MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop 'pool' -utilFile '/path/to/directory/utilFile' -saveDir '/path/to/directory/'
+```
 
 **Command arguments**
 | Name | Description |
