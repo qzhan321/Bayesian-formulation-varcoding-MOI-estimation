@@ -39,11 +39,11 @@ The other script **[derive-prob-s-given-MOI.R](https://github.com/qzhan321/Bayes
 #### Pre-processing
 We recommend to perform a preprocessing step on the input matrix, removing isolates with either fewer than 10 or more than 900 non-upsA DBLα types sequenced. MOI estimates are capped at 20.
 
-#### Example command
+#### Command
 ```bash
 Rscript MOI_estimation.R --i 'path/to/directory/inputFile' --p 'pool' --u '/path/to/directory/utilFile' --o '/path/to/directory/outFile'
 ```
-We can write console output to a text file by adding the following at the end of the example command:
+We can write console output to a text file by adding the following at the end of the command:
 ```bash
 > consoleOutput.txt
 ```
