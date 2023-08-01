@@ -58,7 +58,7 @@ Rscript MOI_estimation.R --input "/Users/John/Downloads/survey_1.csv" --aggregat
 | `input` | The full path to the input matrix: both .csv and .txt file formats are acceptable |
 | `aggregate`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, "pool" vs. "mixtureDist" |
 | `util`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)** |
-| `output`  | Path to the directory where the output will be saved and the name of the output file |
+| `output`  | Path to the directory where the output will be saved and the name of the output file (for example, in the .RData format) |
 
 #### Output
 The above example command will output a list of two objects. When set the argument **fromIndividualToPop** to be 'pool', the output list contains one matrix which records the maximum a posteriori MOI estimate for each sampled individual, and a second matrix which records the probability distribution at the population level. The matrix at the individual level looks like the example below, with a **prob** column storing the actual probability of MOI = maxAPosMOIEst (the maximum a posteriori MOI estimate). 
