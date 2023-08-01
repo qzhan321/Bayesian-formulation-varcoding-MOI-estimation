@@ -10,7 +10,7 @@ We summarize the main steps of a Bayesian approach for MOI (multiplicity of infe
 
 The multiplicity of infection (MOI), defined as the number of genetically distinct parasite strains co-infecting a host, is one key epidemiological parameter for measuring malaria transmission and evaluating malaria interventions. Estimating MOI remains challenging especially in high-transmission endemic settings where individuals typically carry multiple co-occurring infections, recently reviewed in [Labbé et al., 2023](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010816).   
 
-### varcoding for MOI Estimation and Bayesian Formulation
+### varcoding for MOI estimation and a Bayesian formulation
 The hyper-diversity of *var*(DBLα types) and limited repertoire overlap of the *var* multigene family encoding the major *Plasmodium falciparum* blood-stage antigen *PfEMP*1 provide a viable solution for MOI estimation. A constant repertoire size or number of non-upsA DBLα types in a parasite genome can be used to convert the number of types sequenced in an isolate to its estimated MOI ([Ruybal-Pesántez et al., 2022](https://www.sciencedirect.com/science/article/pii/S0020751922000030?via%3Dihub); [Tiedje et al., 2022](https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0000285)).
 
 Here, we extend the method to a Bayesian formulation which accounts for the measurement error in the repertoire size introduced by targeted PCR
