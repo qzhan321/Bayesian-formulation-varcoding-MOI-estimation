@@ -3,7 +3,7 @@
 ## Contents
 * [Overview](#Overview)
 * [varcoding for MOI Estimation and Bayesian Formulation](#varcoding-for-MOI-Estimation-and-Bayesian-Formulation)
-* [Applying the Bayesian Formulation to New Dataset](#Applying-the-Bayesian-Formulation-of-MOI-Estimation-to-New-Dataset)
+* [Applying the Bayesian Formulation to New Dataset](#Applying-the-Bayesian-Formulation-of-MOI-Estimation-to-New-Datasets)
 
 
 ## Overview
@@ -23,7 +23,7 @@ P(s|MOI=1): the distribution of the number of non-upsA DBLα types sequenced giv
 - Bayes’ rule to get P(MOI=i|s), which requires the specification of a prior distribution of MOI. We examined negative binomial distributions with a wide range of parameter value and a uniform distribution. The MOI estimation is not sensitive to the prior distribution of MOI. We use a uniform prior in this work. 
 - From individual to the population level MOI distribution, we either pool the maximum a posteriori MOI estimate for each sampled individual, or use the technique called mixture distribution.
 
-## Applying the Bayesian Formulation of MOI estimation to New Dataset
+## Applying the Bayesian Formulation of MOI estimation to New Datasets
 There are two R scripts in the folder **[scripts](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/tree/main/scripts)**.  
 To apply our Bayesian method to a new dataset, only the script **[MOI_estimation.R](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/MOI_estimation.R)** is needed. 
 
