@@ -41,7 +41,7 @@ We recommend to perform a preprocessing step on the input matrix, removing isola
 
 #### Example command
 ```R
-R MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop 'pool' -utilFile '/path/to/directory/utilFile' -saveDir '/path/to/directory/'
+Rscript MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop 'pool' -utilFile '/path/to/directory/utilFile' -saveDir '/path/to/directory/'
 ```
 #### Command arguments
 | Name | Description |
