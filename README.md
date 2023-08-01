@@ -3,7 +3,7 @@
 ## Contents
 * [Overview](#Overview)
 * [varcoding for MOI Estimation and Bayesian Formulation](#varcoding-for-MOI-Estimation-and-Bayesian-Formulation)
-* [Applying the Bayesian Formulation to New Dataset](#Applying-the-Bayesian-Formulation-to-New-Dataset)
+* [Applying the Bayesian Formulation to New Dataset](#Applying-the-Bayesian-Formulation-of-MOI-Estimation-to-New-Dataset)
 
 
 ## Overview
