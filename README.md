@@ -47,7 +47,7 @@ R MOI_estimation.R -inputFile 'path/to/directory/inputFile' -fromIndividualToPop
 **Command arguments**
 | Name | Description |
 | :--: | :---------: | 
-| `inputFile` | The full path to the input matrix |
+| `inputFile` | The full path to the input matrix, both .csv and .txt file formats are acceptable |
 | `fromIndividualToPop`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, 'pool' vs. 'mixtureDist'|
 | `utilFile`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)**|
 | `saveDir`  | Path to the directory where the output will be saved |
