@@ -41,7 +41,7 @@ We recommend to perform a preprocessing step on the input matrix, removing isola
 
 #### Command
 ```bash
-Rscript MOI_estimation.R --i 'path/to/directory/inputFile' --p 'pool' --u '/path/to/directory/utilFile' --o '/path/to/directory/outFile'
+Rscript MOI_estimation.R --input "path/to/directory/inputFile" --aggregate "pool" --util "/path/to/directory/utilFile" --output "/path/to/directory/outFile"
 ```
 We can write console output to a text file by adding the following at the end of the command:
 ```bash
@@ -49,14 +49,14 @@ We can write console output to a text file by adding the following at the end of
 ```
 #### Example Command 
 ```bash
-Rscript MOI_estimation.R --input '/Users/John/Downloads/survey_1.csv' --aggregate 'pool' --util '/Users/John/Downloads/s_givenMOI_list' --output '/Users/John/Downloads/survey_1_MOI.RData' >consoleOutput.txt
+Rscript MOI_estimation.R --input "/Users/John/Downloads/survey_1.csv" --aggregate "pool" --util "/Users/John/Downloads/s_givenMOI_list" --output "/Users/John/Downloads/survey_1_MOI.RData" >consoleOutput.txt
 ```
 
 #### Command arguments
 | Name | Description |
 | :--: | :---------: | 
 | `input` | The full path to the input matrix: both .csv and .txt file formats are acceptable |
-| `aggregate`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, 'pool' vs. 'mixtureDist'|
+| `aggregate`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, "pool" vs. "mixtureDist" |
 | `util`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)** |
 | `output`  | Path to the directory where the output will be saved and the name of the output file |
 
