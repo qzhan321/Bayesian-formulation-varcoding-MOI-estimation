@@ -2,16 +2,24 @@
 
 ## Contents
 - [Overview and Background](#Overview-and-Background)
+  - [varcoding for MOI Estimation and a Bayesian Formulation](#varcoding-for-MOI-Estimation-and-a-Bayesian-Formulation)
 - [Applying the Bayesian Formulation of MOI Estimation to New Datasets](#Applying-the-Bayesian-Formulation-of-MOI-Estimation-to-New-Datasets)
-  - [Running the script](#Running-the-script)
-    - [Pre-processing](#Pre-processing) 
+  - [Running the Script](#Running-the-Script)
+    - [Pre-processing](#Pre-processing)
+    - [Command](#Command)
+    - [Example Command](#Example-Command)
+    - [Command Arguments](#Command-Arguments)
+    - [Output](#Output)
+    - [Large dataset](#Large-dataset)
+    - [Help](#Help)
+    - [Contact](#Contact)
 
 ## Overview and Background
 We summarize the main steps of a Bayesian approach for MOI (multiplicity of infection) estimation, proposed in [Tiedje K.E., Zhan Q., Ruybal-Pesántez S., Tonkin-Hill G., He Q., Tan M.H., Argyropoulos D.C., Deed S.L., Ghansah A., Bangre O., Oduro A.R., Koram K.A., Pascual M., Day K.P., 2023. Measuring changes in Plasmodium falciparum var census population size and structure in response to sequential malaria control interventions. medRxiv. https://doi.org/10.1101/2023.05.18.23290210.](https://www.medrxiv.org/content/early/2023/05/19/2023.05.18.23290210.full.pdf) 
 
 The multiplicity of infection (MOI), defined as the number of genetically distinct parasite strains co-infecting a host, is one key epidemiological parameter for measuring malaria transmission and evaluating malaria interventions. Estimating MOI remains challenging especially in high-transmission endemic settings where individuals typically carry multiple co-occurring infections, recently reviewed in [Labbé et al., 2023](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010816).   
 
-### varcoding for MOI estimation and a Bayesian formulation
+### varcoding for MOI Estimation and a Bayesian Formulation
 The hyper-diversity of *var*(DBLα types) and limited repertoire overlap of the *var* multigene family encoding the major *Plasmodium falciparum* blood-stage antigen *PfEMP*1 provide a viable solution for MOI estimation. A constant repertoire size or number of non-upsA DBLα types in a parasite genome can be used to convert the number of types sequenced in an isolate to its estimated MOI ([Ruybal-Pesántez et al., 2022](https://www.sciencedirect.com/science/article/pii/S0020751922000030?via%3Dihub); [Tiedje et al., 2022](https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0000285)).
 
 Here, we extend the method to a Bayesian formulation which accounts for the measurement error in the repertoire size introduced by targeted PCR
@@ -28,7 +36,7 @@ There are two R scripts in the folder **[scripts](https://github.com/qzhan321/Ba
 
 The other script **[derive-prob-s-given-MOI.R](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/derive-prob-s-given-MOI.R)** walks through how we derive the probability distribution of the number of non-upsA DBLα types sequenced and typed given any MOI value, i.e., P(s|MOI=2) and P(s|MOI=3) and so on up until P(s|MOI=20) (20 being the upper limit of MOI values, empirically determined) based on the serial convolutions of the repertoire size distribution P(s|MOI=1). But we upload the output list to the **[scripts](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/tree/main/scripts)** folder, which stores the probability distribution of s given any certain MOI, i.e., **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)**. It can be downloaded and used directly. The first element of this list corresponds to the distribution of s given MOI = 1, and the second element of this list corresponds to the distribution of s given MOI = 2, and so on so forth. 
 
-### Running the script
+### Running the Script
 **MOI_estimation.R** estimates MOI values for individual hosts given their number of non-upsA DBLα types. It takes a matrix as its input. The matrix has two columns, with the first one being host IDs, or identifiers of hosts, and the second column being the number of **non-upsA** DBLα types sequenced and typed in each individual corresponding host. Below is an example of the first two rows of an input matrix:
 
 | HostID | NumDBLaTypes |
@@ -55,7 +63,7 @@ Rscript MOI_estimation.R --input "/Users/John/Downloads/survey_1.csv" --prior "n
 ```
 This command will specify a negative binomial prior for MOI distribution, with a mean value being medium around 4. 
 
-#### Command arguments
+#### Command Arguments
 | Name | Description |
 | :--: | :---------: | 
 | `input` | The full path to the input matrix: both .csv and .txt file formats are acceptable |
@@ -147,12 +155,15 @@ The matrix at the population level:
 
 MOI distributions at the population level obtained from the two approaches differ slightly. But the difference is non-significant with the example datasets from northern Ghana as determined by the Kolmogorov-Smirnov Test. Users can run both and compare MOI distributions at the population level to inspect the difference between the two. 
 
-#### large dataset
+#### Large Dataset
 You may embed the command line to a bash script and run it on a computational cluster. That way you can request a number of nodes and memory per node for enough computational power.
 
-#### help
+#### Help
 Run the command below to print out help page.
 ```bash
 Rscript MOI_estimation.R --help
 ```
 Users can refer to the help page for the definition of each parameter, their default values, and all the possible options for their values.
+
+#### Contact
+If you run into any issues using the method, feel free to open a new [issue](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/issues)
