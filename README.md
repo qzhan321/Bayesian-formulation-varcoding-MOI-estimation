@@ -59,7 +59,7 @@ This command will specify a negative binomial prior for MOI distribution, with a
 | :--: | :---------: | 
 | `input` | The full path to the input matrix: both .csv and .txt file formats are acceptable |
 | `prior` | The prior distribution for MOI to be estimated; two options, "uniform" or "negBinom" (short for negative binomial) |
-| `params` | When specifying prior to be "negBinom", users need to specify a range for the mean of the negative binomial; three options, "low" or "medium" or "high", corresponding to a mean of ~1, ~4, ~7 |
+| `params` | When specifying prior to be "negBinom", users need to specify a range for the mean of the negative binomial; three options, "low" or "medium" or "high", corresponding to a mean of ~1, ~4, ~7 respectively |
 | `aggregate`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, "pool" vs. "mixtureDist" |
 | `util`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)** |
 | `output`  | Path to the directory where the output will be saved and the name of the output file (for example, in the .RData format) |
