@@ -17,14 +17,12 @@ option_list = list(
 
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
-print(opt$aggregate)
 
 a <- 10 # lowest number of non-upsA DBLa types sequenced in a single infection, from the empirical repertoire size distribution.
 b <- 45 # highest number of non-upsA DBLa types sequenced in a single infection, from the empirical repertoire size distribution
 MOI_max <- 20
 
 inputFile <- read.csv(opt$input, header = T, row.names = NULL)
-print(head(inputFile))
 utilFile <- opt$util
 load(utilFile)
 p_s_givenMOI <- s_givenMOI_list
