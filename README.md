@@ -40,7 +40,7 @@ We recommend to perform a preprocessing step on the input matrix, removing isola
 
 #### Command
 ```bash
-Rscript MOI_estimation.R --input "path/to/directory/inputFile" --aggregate "pool" --util "/path/to/directory/utilFile" --output "/path/to/directory/outFile"
+Rscript MOI_estimation.R --input "path/to/directory/inputFile" --prior "uniform" --params "NULL" --aggregate "pool" --util "/path/to/directory/utilFile" --output "/path/to/directory/outFile"
 ```
 We can write console output to a text file by adding the following at the end of the command:
 ```bash
@@ -50,19 +50,22 @@ Right now the output text file does not contain much information. You may modify
 
 #### Example Command 
 ```bash
-Rscript MOI_estimation.R --input "/Users/John/Downloads/survey_1.csv" --aggregate "pool" --util "/Users/John/Downloads/s_givenMOI_list" --output "/Users/John/Downloads/survey_1_MOI.RData" >consoleOutput.txt
+Rscript MOI_estimation.R --input "/Users/John/Downloads/survey_1.csv" --prior "negBinom" --params "medium" --aggregate "pool" --util "/Users/John/Downloads/s_givenMOI_list" --output "/Users/John/Downloads/survey_1_MOI.RData" >consoleOutput.txt
 ```
+This command will specify a negative binomial prior for MOI distribution, with a mean value being medium around 4. 
 
 #### Command arguments
 | Name | Description |
 | :--: | :---------: | 
 | `input` | The full path to the input matrix: both .csv and .txt file formats are acceptable |
+| `prior` | The prior distribution for MOI to be estimated; two options, "uniform" or "negBinom" (short for negative binomial) |
+| `params` | When specifying prior to be "negBinom", users need to specify a range for the mean of the negative binomial; three options, "low" or "medium" or "high", corresponding to a mean of ~1, ~4, ~7 |
 | `aggregate`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, "pool" vs. "mixtureDist" |
 | `util`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)** |
 | `output`  | Path to the directory where the output will be saved and the name of the output file (for example, in the .RData format) |
 
 #### Output
-The above example command will output a list of two objects. When set the argument **fromIndividualToPop** to be 'pool', the output list contains one matrix which records the maximum a posteriori MOI estimate for each sampled individual, and a second matrix which records the probability distribution at the population level. The matrix at the individual level looks like the example below, with a **prob** column storing the actual probability of MOI = maxAPosMOIEst (the maximum a posteriori MOI estimate). 
+The above example command will output a list of two objects. When set the argument **aggregate** to be 'pool', the output list contains one matrix which records the maximum a posteriori MOI estimate for each sampled individual, and a second matrix which records the probability distribution at the population level. The matrix at the individual level looks like the example below, with a **prob** column storing the actual probability of MOI = maxAPosMOIEst (the maximum a posteriori MOI estimate). 
 | HostID | NumDBLαTypes | maxAPosMOIEst | prob |
 | :--: | :---------: | :--: | :--: |
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 2 | 0.9870216 |
@@ -92,7 +95,7 @@ The matrix at the population level:
 | 19 | 0 |
 | 20 | 0.002919708 |
 
-When set the argument **fromIndividualToPop** to be 'mixtureDist', the output list again contains two matrices, one recording the full probability distribution of MOI for individual hosts, and a second one recording the probability distribution at the population level.
+When set the argument **aggregate** to be 'mixtureDist', the output list again contains two matrices, one recording the full probability distribution of MOI for individual hosts, and a second one recording the probability distribution at the population level.
 The matrix for individual hosts (only listing one host as an example):
 | HostID | NumDBLαTypes | MOI | prob |
 | :--: | :---------: | :--: | :--: |
@@ -141,4 +144,14 @@ The matrix at the population level:
 | 19 | 0.0006565408 |
 | 20 | 0.0020301102|
 
-MOI distributions at the population level obtained from the two approaches differ slightly. But the difference is non-significant with the example datasets from northern Ghana as determined by the Kolmogorov-Smirnov Test. 
+MOI distributions at the population level obtained from the two approaches differ slightly. But the difference is non-significant with the example datasets from northern Ghana as determined by the Kolmogorov-Smirnov Test. Users can run both and compare MOI distributions at the population level to inspect the difference between the two. 
+
+#### large dataset
+You may embed the command line to a bash script and run it on a computational cluster. That way you can request a number of nodes and memory per node for enough computational power.
+
+#### help
+Run the command below to print out help page.
+```bash
+Rscript MOI_estimation.R --help
+```
+Users can refer to the help page for the definition of each parameter, their default values, and all the possible options for their values.
