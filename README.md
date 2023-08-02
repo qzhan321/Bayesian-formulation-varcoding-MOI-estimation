@@ -6,7 +6,7 @@
 
 
 ## Overview and Background
-We summarize the main steps of a Bayesian approach for MOI (multiplicity of infection) estimation, and more details can be found in [Tiedje K.E., Zhan Q., Ruybal-Pesántez S., Tonkin-Hill G., He Q., Tan M.H., Argyropoulos D.C., Deed S.L., Ghansah A., Bangre O., Oduro A.R., Koram K.A., Pascual M., Day K.P., 2023. Measuring changes in Plasmodium falciparum var census population size and structure in response to sequential malaria control interventions. medRxiv. https://doi.org/10.1101/2023.05.18.23290210.](https://www.medrxiv.org/content/early/2023/05/19/2023.05.18.23290210.full.pdf) 
+We summarize the main steps of a Bayesian approach for MOI (multiplicity of infection) estimation, proposed in [Tiedje K.E., Zhan Q., Ruybal-Pesántez S., Tonkin-Hill G., He Q., Tan M.H., Argyropoulos D.C., Deed S.L., Ghansah A., Bangre O., Oduro A.R., Koram K.A., Pascual M., Day K.P., 2023. Measuring changes in Plasmodium falciparum var census population size and structure in response to sequential malaria control interventions. medRxiv. https://doi.org/10.1101/2023.05.18.23290210.](https://www.medrxiv.org/content/early/2023/05/19/2023.05.18.23290210.full.pdf) 
 
 The multiplicity of infection (MOI), defined as the number of genetically distinct parasite strains co-infecting a host, is one key epidemiological parameter for measuring malaria transmission and evaluating malaria interventions. Estimating MOI remains challenging especially in high-transmission endemic settings where individuals typically carry multiple co-occurring infections, recently reviewed in [Labbé et al., 2023](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010816).   
 
@@ -20,7 +20,7 @@ and amplicon sequencing of *var* genes in an infection (subsampling of *var* gen
 P(s|MOI=1): the distribution of the number of non-upsA DBLα types sequenced given MOI = 1, which is empirically available.
 - **Serial convolutions** of this distribution: from P(s|MOI=1) to P(s|MOI=2), P(s|MOI=3), etc.
 - **Bayes’ rule** to get P(MOI=i|s), which requires the specification of a prior distribution of MOI. We examined negative binomial distributions with a wide range of parameter value and a uniform distribution. The MOI estimation is not sensitive to the prior distribution of MOI. We use a uniform prior in this work. 
-- From individual to the population level MOI distribution, we either **pool the maximum a posteriori MOI estimate for each sampled individual**, or **use the technique called mixture distribution**.
+- From individual to the population level MOI distribution, we either **pool the maximum a posteriori MOI estimate for each sampled individual**, or **use the technique called mixture distribution**. More details can be found in [Tiedje and Zhan et al, 2023](https://www.medrxiv.org/content/early/2023/05/19/2023.05.18.23290210.full.pdf)
 
 ## Applying the Bayesian Formulation of MOI estimation to New Datasets
 There are two R scripts in the folder **[scripts](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/tree/main/scripts)**.  
