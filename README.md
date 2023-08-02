@@ -12,7 +12,7 @@
     - [Output](#Output)
     - [Large dataset](#Large-dataset)
     - [Help](#Help)
-    - [Contact](#Contact)
+- [Contact](#Contact)
 
 ## Overview and Background
 We summarize the main steps of a Bayesian approach for MOI (multiplicity of infection) estimation, proposed in [Tiedje K.E., Zhan Q., Ruybal-Pesántez S., Tonkin-Hill G., He Q., Tan M.H., Argyropoulos D.C., Deed S.L., Ghansah A., Bangre O., Oduro A.R., Koram K.A., Pascual M., Day K.P., 2023. Measuring changes in Plasmodium falciparum var census population size and structure in response to sequential malaria control interventions. medRxiv. https://doi.org/10.1101/2023.05.18.23290210.](https://www.medrxiv.org/content/early/2023/05/19/2023.05.18.23290210.full.pdf) 
@@ -165,5 +165,5 @@ Rscript MOI_estimation.R --help
 ```
 Users can refer to the help page for the definition of each parameter, their default values, and all the possible options for their values.
 
-#### Contact
+## Contact
 If you run into any issues using the method, feel free to open a new [issue](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/issues).
