@@ -3,7 +3,7 @@
 ## Contents
 - [Overview and Background](#Overview-and-Background)
 - [Applying the Bayesian Formulation of MOI Estimation to New Datasets](#Applying-the-Bayesian-Formulation-of-MOI-Estimation-to-New-Datasets)
- - [Running the script](#Running-the-script)
+  - [Running the script](#Running-the-script)
   - [Pre-processing](#Pre-processing) 
 
 ## Overview and Background
