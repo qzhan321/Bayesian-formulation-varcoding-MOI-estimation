@@ -46,6 +46,8 @@ We can write console output to a text file by adding the following at the end of
 ```bash
 >consoleOutput.txt
 ```
+Right now the output text file does not contain much information. You may modify your **MOI_estimation.R** by adding printing command to inspect input or intermediary variables.
+
 #### Example Command 
 ```bash
 Rscript MOI_estimation.R --input "/Users/John/Downloads/survey_1.csv" --aggregate "pool" --util "/Users/John/Downloads/s_givenMOI_list" --output "/Users/John/Downloads/survey_1_MOI.RData" >consoleOutput.txt
