@@ -166,4 +166,4 @@ Rscript MOI_estimation.R --help
 Users can refer to the help page for the definition of each parameter, their default values, and all the possible options for their values.
 
 #### Contact
-If you run into any issues using the method, feel free to open a new [issue](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/issues)
+If you run into any issues using the method, feel free to open a new [issue](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/issues).
