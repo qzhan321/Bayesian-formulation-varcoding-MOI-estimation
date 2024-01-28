@@ -80,7 +80,7 @@ for (j in 1:length(s_temp)) {
   numerator <- 0
   for (b in 1:MOI_max) {
     if (!is.na(p_s_givenMOI[[as.character(b)]][as.character(s)])) {
-      numerator <- numerator + p_s_givenMOI[[as.character(b)]][as.character(s)]*MOI_priors[as.character(b)]
+      numerator <- numerator + p_s_givenMOI[[as.character(b)]][as.character(s)]*MOI_priors[[as.character(b)]]
     }
   }
   
