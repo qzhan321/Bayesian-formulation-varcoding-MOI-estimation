@@ -3,7 +3,7 @@
 ## Contents
 - [Overview and Background](#Overview-and-Background)
   - [varcoding for MOI Estimation and a Bayesian Formulation](#varcoding-for-MOI-Estimation-and-a-Bayesian-Formulation)
-- [Applying the Bayesian Formulation of MOI Estimation to New Datasets](#Applying-the-Bayesian-Formulation-of-MOI-Estimation-to-New-Datasets)
+- [Applying the Bayesian varcoding to New Datasets](#Applying-the-Bayesian-Formulation-of-MOI-Estimation-to-New-Datasets)
   - [Running the Script](#Running-the-Script)
     - [Pre-processing](#Pre-processing)
     - [Command](#Command)
@@ -15,7 +15,7 @@
 - [Contact](#Contact)
 
 ## Overview and Background
-We summarize the main steps of a Bayesian approach for MOI (multiplicity of infection) estimation, proposed in [Tiedje K.E., Zhan Q., Ruybal-Pesántez S., Tonkin-Hill G., He Q., Tan M.H., Argyropoulos D.C., Deed S.L., Ghansah A., Bangre O., Oduro A.R., Koram K.A., Pascual M., Day K.P., 2023. Measuring changes in Plasmodium falciparum var census population size and structure in response to sequential malaria control interventions. medRxiv. https://doi.org/10.1101/2023.05.18.23290210.](https://doi.org/10.1101/2023.05.18.23290210) 
+We summarize the main steps of an extended, Bayesian formulation of *var*coding for MOI (multiplicity of infection) estimation, proposed in [Tiedje and Zhan et al, *eLife*.](https://doi.org/10.7554/eLife.91411.1) 
 
 The multiplicity of infection (MOI), defined as the number of genetically distinct parasite strains co-infecting a host, is one key epidemiological parameter for measuring malaria transmission and evaluating malaria interventions. Estimating MOI remains challenging especially in high-transmission endemic settings where individuals typically carry multiple co-occurring infections, recently reviewed in [Labbé et al., 2023](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010816).   
 
