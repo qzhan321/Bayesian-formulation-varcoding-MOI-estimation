@@ -48,6 +48,7 @@ It also requires a repertoire size distribution, which is a .csv file (see previ
 | 10 | 4 |
 
 Among all monoclonal infections in your datasets, 2 of them have 9 **non-upsA** DBLα types sequenced and typed successfully, and 4 of them have 10 **non-upsA** DBLα types sequenced and typed successfully.
+
 Alternatively, the repertoire size distribution could be in a probability format of the raw count data, or even a smoothed version of the raw count data or its corresponing probability format.
 | DBLa_upsBC_rep_size | p |
 | :---------: | :---------: | 
@@ -55,8 +56,7 @@ Alternatively, the repertoire size distribution could be in a probability format
 | 10 | 0.002114165 |
 
 Among all monoclonal infections in your datasets, there is a probability of 0.004228330 for having 9 **non-upsA** DBLα types sequenced and typed successfully, and there is probability of 0.002114165 for having 10 **non-upsA** DBLα types sequenced and typed successfully. 
-Note that our script will check whether specific values of the number of **non-upsA** DBLα types are associated with n = 0 or p = 0, i.e., no observation of these values for the number of **non-upsA** DBLα types among your monoclonal infections. By default we impute a non-zero n or p based on the mean of the nearest two neighbors' n or p. For example, if for DBLa_upsBC_rep_size = 11, n = 0 (i.e., p = 0), we impute its n or p based on that of upsBC_rep_size = 10 and upsBC_rep_size = 12.
-It is recommended to use the collection of monoclonal infection from the empirical surveys whose MOI are to be estimated. 
+Note that our script will check whether specific values of the number of **non-upsA** DBLα types are associated with n = 0 or p = 0, i.e., no observation of these values for the number of **non-upsA** DBLα types among your monoclonal infections. By default we impute a non-zero n or p based on the mean of the nearest two neighbors' n or p. For example, if for DBLa_upsBC_rep_size = 11, n = 0 (i.e., p = 0), we impute its n or p based on that of upsBC_rep_size = 10 and upsBC_rep_size = 12. **It is recommended to use the collection of monoclonal infection from the empirical surveys whose MOI are to be estimated**. 
 
 #### Pre-processing
 Depending on the quality of your data, you may wish to perform some pre-processing steps. For example, removing isolates with very few non-upsA DBLα types sequenced. 
