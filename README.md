@@ -15,74 +15,82 @@
 - [Contact](#Contact)
 
 ## Overview and Background
-We summarize the main steps of an extended, Bayesian formulation of *var*coding for MOI (multiplicity of infection) estimation, proposed in [Tiedje and Zhan et al, *eLife*.](https://doi.org/10.7554/eLife.91411.1) 
+We summarize the main steps of an extended, Bayesian formulation of *var*coding for MOI (multiplicity of infection) estimation, proposed in [Tiedje and Zhan et al., *eLife*, 2023.](https://doi.org/10.7554/eLife.91411.1) 
 
-The multiplicity of infection (MOI), defined as the number of genetically distinct parasite strains co-infecting a host, is one key epidemiological parameter for measuring malaria transmission and evaluating malaria interventions. Estimating MOI remains challenging especially in high-transmission endemic settings where individuals typically carry multiple co-occurring infections, recently reviewed in [Labbé et al., 2023](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010816).   
+The multiplicity of infection (MOI), defined as the number of genetically distinct parasite strains co-infecting a host, is one key epidemiological parameter for measuring malaria transmission and evaluating malaria interventions. Estimating MOI was challenging especially in high-transmission endemic regions where individuals typically carry multiple co-occurring infections, reviewed in [Labbé et al., PLoS Comput Biol, 2023](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010816).   
 
 ### varcoding for MOI Estimation and a Bayesian Formulation
-The hyper-diversity of *var*(DBLα types) and limited repertoire overlap of the *var* multigene family encoding the major *Plasmodium falciparum* blood-stage antigen *PfEMP*1 provide a viable solution for MOI estimation. A constant repertoire size or number of non-upsA DBLα types in a parasite genome can be used to convert the number of types sequenced in an isolate to its estimated MOI ([Ruybal-Pesántez et al., 2022](https://www.sciencedirect.com/science/article/pii/S0020751922000030?via%3Dihub); [Tiedje et al., 2022](https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0000285)).
+The hyper-diversity of the *var* multigene family encoding the major variant surface antigen, *Plasmodium falciparum* erythrocyte membrane protein 1 (*PfEMP*1), and the limited repertoire similarity, provide a viable solution for MOI estimation. A constant repertoire size or number of *var* (non-upsA DBLα types) in a parasite genome can be used to convert the number of types sequenced in an isolate to its MOI ([Ruybal-Pesántez et al., Int. J. Parasitol., 2022](https://www.sciencedirect.com/science/article/pii/S0020751922000030?via%3Dihub); [Tiedje et al., PLOS Glob Public Health, 2022](https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0000285)).
 
-Here, we extend the method to a Bayesian formulation which accounts for the measurement error in the repertoire size introduced by targeted PCR
-and amplicon sequencing of *var* genes in an infection (subsampling of *var* genes) and estimate the posterior distribution for each sampled individual for the probability of different MOI values. From individual posterior distributions, we can then obtain the estimated MOI frequency distribution for the population as a whole.
+Here, we extend the method to a Bayesian formulation which accounts for the measurement error in the repertoire size introduced by targeted PCR and amplicon sequencing of *var* genes in an infection (subsampling of *var* genes) and estimate the posterior distribution for each sampled individual for the probability of different MOI values. From individual posterior distributions, we can then obtain the estimated MOI frequency distribution for the population as a whole.
 
 - **The repertoire size distribution**
-P(s|MOI=1): the distribution of the number of non-upsA DBLα types sequenced given MOI = 1, which is empirically available.
-- **Serial convolutions** of this distribution: from P(s|MOI=1) to P(s|MOI=2), P(s|MOI=3), etc.
-- **Bayes’ rule** to get P(MOI=i|s), which requires the specification of a prior distribution of MOI. The prior reflects your belief on MOI distribution of your sampled population before seeing or analyzing the sequencce data, for example, centering around lower values or higher values, which depends on your rough understanding and estimation of the local transmission intensity. We examined negative binomial distributions with a wide range of parameter value and a uniform distribution. The MOI estimation is not sensitive to the prior distribution of MOI. We use a uniform prior in [Tiedje and Zhan et al, 2023](https://doi.org/10.1101/2023.05.18.23290210). Nonetheless we allow users to specify their own prior and associated parameters. Details included in the following [section](#Running-the-script).
-- From individual to the population level MOI distribution, we either **pool the maximum a posteriori MOI estimate for each sampled individual**, or **use the technique called mixture distribution**. More details can be found in [Tiedje and Zhan et al, 2023](https://doi.org/10.1101/2023.05.18.23290210).
+P(s|MOI=1): repertoire size distribution, the distribution of the number of non-upsA DBLα types sequenced given MOI = 1, which is empirically available. Examples of this distribution are given in the [section](#Running-the-script).
+- **Serial convolutions** of this size distribution: from P(s|MOI=1) to P(s|MOI=2), P(s|MOI=3), etc.
+- **Bayes’ rule** to get P(MOI=i|s), which requires the specification of a prior distribution of MOI. The prior reflects your belief on MOI distribution of your sampled population before seeing or analyzing the sequence data, for example, centering around lower values or higher values, which depends on your rough understanding and estimation of the local transmission intensity. We examined negative binomial distributions with a wide range of parameter value and a uniform distribution. The MOI estimation is not sensitive to the prior distribution of MOI for datasets sampled from Bongo District in northern Ghana. We use a uniform prior in [Tiedje and Zhan et al., *eLife*, 2023](https://doi.org/10.7554/eLife.91411.1). Nonetheless we allow users to specify their own prior and associated parameters. Details included in the following [section](#Running-the-script).
+- From individual to the population level MOI distribution, we either **pool the maximum a posteriori MOI estimate for each sampled individual**, or **use the technique called mixture distribution**. More details can be found in [Tiedje and Zhan et al., *eLife*, 2023](https://doi.org/10.7554/eLife.91411.1).
 
 ## Applying the Bayesian Formulation of MOI estimation to New Datasets
-There are two R scripts in the folder **[scripts](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/tree/main/scripts)**. To apply our Bayesian method to a new dataset, only the script **[MOI_estimation.R](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/MOI_estimation.R)** is needed. 
-
-The other script **[derive-prob-s-given-MOI.R](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/derive-prob-s-given-MOI.R)** walks through how we derive the probability distribution of the number of non-upsA DBLα types sequenced and typed given any MOI value, i.e., P(s|MOI=2) and P(s|MOI=3) and so on up until P(s|MOI=20) (20 being the upper limit of MOI values, empirically determined) based on the serial convolutions of the repertoire size distribution P(s|MOI=1). But we upload the output list to the **[scripts](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/tree/main/scripts)** folder, which stores the probability distribution of s given any certain MOI, i.e., **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)**. It can be downloaded and used directly. The first element of this list corresponds to the distribution of s given MOI = 1, and the second element of this list corresponds to the distribution of s given MOI = 2, and so on so forth. 
+The script **[MOI_estimation.R](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/MOI_estimation.R)** is needed. 
 
 ### Running the Script
-**MOI_estimation.R** estimates MOI values for individual hosts given their number of non-upsA DBLα types. It takes a matrix as its input. The matrix has two columns, with the first one being host IDs, or identifiers of hosts, and the second column being the number of **non-upsA** DBLα types sequenced and typed in each individual corresponding host. Below is an example of the first two rows of an input matrix:
+**MOI_estimation.R** estimates MOI values for individual hosts given their number of non-upsA DBLα types. It requires a .csv file as input. The associated dataframe has two columns, with the first one being host IDs, or any type of identifiers of hosts, and the second column being the number of **non-upsA** DBLα types sequenced and typed in each individual corresponding host. Below is an example of the first two rows of an input matrix:
 
-| HostID | NumDBLaTypes |
+| HostID | DBLa_upsBC_rep_size |
 | :--: | :---------: | 
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 |
 | `RS1MRS1967.MID88.88.P6.dec15`  | 95 |
 
+It also requires a repertoire size distribution, which is a .csv file (see previous [section](#varcoding-for-MOI-Estimation-and-a-Bayesian-Formulation)). This repertoire size distribution could be in the raw count data format. Below is the first two rows of an example repertoire size distribution:
+| DBLa_upsBC_rep_size | n |
+| :---------: | :--: | 
+| 9 | 2 |
+| 10 | 4 |
+Among all monoclonal infections in your datasets, 2 of them have 9 **non-upsA** DBLα types sequenced and typed successfully, and 4 of them have 10 **non-upsA** DBLα types sequenced and typed successfully.
+Alternatively, the repertoire size distribution could be in a probability format of the raw count data, or even a smoothed version of the raw count data or its corresponing probability format.
+| DBLa_upsBC_rep_size | p |
+| :---------: | :---------: | 
+| 9 | 0.004228330 |
+| 10 | 0.002114165 |
+Among all monoclonal infections in your datasets, there is a probability of 0.004228330 for having 9 **non-upsA** DBLα types sequenced and typed successfully, and there is probability of 0.002114165 for having 10 **non-upsA** DBLα types sequenced and typed successfully. 
+Note that our script will check whether specific values of the number of **non-upsA** DBLα types are associated with n = 0 or p = 0, i.e., no observation of these values for the number of **non-upsA** DBLα types among your monoclonal infections. By default we impute a non-zero n or p based on the mean of the nearest two neighbors' n or p. For example, if for DBLa_upsBC_rep_size = 11, n = 0 (i.e., p = 0), we impute its n or p based on that of upsBC_rep_size = 10 and upsBC_rep_size = 12.
+It is recommended to use the collection of monoclonal infection from the empirical surveys whose MOI are to be estimated. 
+
 #### Pre-processing
-We recommend to perform a preprocessing step on the input matrix, removing isolates with either fewer than 10 or more than 900 non-upsA DBLα types sequenced. MOI estimates are capped at 20.
+Depending on the quality of your data, you may wish to perform some pre-processing steps. For example, removing isolates with very few non-upsA DBLα types sequenced. 
 
 #### Command
 ```bash
-Rscript MOI_estimation.R --input "path/to/directory/inputFile" --prior "uniform" --params "NULL" --verbose TRUE --aggregate "pool" --util "/path/to/directory/utilFile" --output "/path/to/directory/outFile"
+Rscript MOI_estimation.R -i "path/to/directory/inputFile" -m 20 -r "path/to/directory/repertoireSizeDistributionFile" -t "count" -p "uniform" -s "medium" -v TRUE -a "pool" -o "/path/to/directory/outFile"
 ```
-We can write console output to a text file by adding the following at the end of the command:
-```bash
->consoleOutput.txt
-```
-Right now the output text file does not contain much information. You may modify your **MOI_estimation.R** by adding printing command to inspect input or intermediary variables.
 
 #### Example Command 
 ```bash
-Rscript MOI_estimation.R --input "/Users/John/Downloads/survey_1.csv" --prior "negBinom" --params "medium" --verbose TRUE --aggregate "pool" --util "/Users/John/Downloads/s_givenMOI_list" --output "/Users/John/Downloads/survey_1_MOI.RData" >consoleOutput.txt
+Rscript MOI_estimation.R -i "/Users/John/Downloads/survey_1.csv" -m 20 -r "/Users/John/Downloads/repertoireSizeDistribution.csv" -t "count" -p "uniform" -s "NA" -v TRUE -a "mixtureDist" -o "/Users/John/Downloads/survey_1_MOI_estimation_results.RData" 
 ```
-This command will specify a negative binomial prior for MOI distribution, with a mean value being medium around 4. 
 
 #### Command Arguments
-| Name | Description |
-| :--: | :---------: | 
-| `input` | The full path to the input matrix: both .csv and .txt file formats are acceptable |
-| `prior` | The prior distribution for MOI to be estimated; two options, "uniform" or "negBinom" (short for negative binomial) |
-| `params` | When specifying prior to be "negBinom", users need to specify a range for the mean of the negative binomial; three options, "low" or "medium" or "high", corresponding to a mean of ~1, ~4, ~7 respectively. If your sample is from a high- or extremely high-transmission endemic region, recommend to use either uniform or negative binomial with medium or high parameter setting. If your sample is from a low-tranmission region, recommend to use negative binomial with low parameter setting |
-| `verbose` | Whether output the prior distribution of MOI or not; logical, "TRUE" or "FALSE" |
-| `aggregate`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, "pool" vs. "mixtureDist" |
-| `util`  | Local path to the downloadable object **[s_givenMOI_list](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/s_givenMOI_list)** |
-| `output`  | Path to the directory where the output will be saved and the name of the output file (for example, in the .RData format) |
+|  Name | Description |
+|  :-:  | :---------: | 
+|  `i`  | Input. The full path to the input matrix, which is a .csv file format with two columns: host identifiers "HostID", and the number of **non-upsA** DBLα types sequenced in each host "DBLa_upsBC_rep_size". |
+|  `m`  | maxMOI. The maximum value for MOI: an estimate from your empirical dataset. All the estimated MOI values will be capped by this parameter. |
+|  `r`  | repertoireSizeDist. The full path to the repertoire size distribution, i.e., the distribution of the number of **non-upsA** DBLα types sequenced in monoclonal infections, or its corresponding probablity format, or even a smoothed version of the corresponding probability format. |
+|  `t`  | TypeOfRepertoireSizeDist. The type of the repertoire size distribution, which can be the raw count data, or a smoothed probability version of the raw count data. Two options: "count" vs. "probability". |
+|  `p`  | The prior distribution for MOI to be estimated; two options, "uniform" or "negBinom" (short for negative binomial) |
+|  `s`  | When specifying the prior to be a "negBinom", users need to specify the range for the mean of the negative binomial. There are three options: "low" or "medium" or "high", corresponding to a mean of ~1.5, ~4.3, ~6.7 respectively. If your sample is from a high- or extremely high-transmission endemic region, we recommend you to use either a uniform or a negative binomial with medium or high parameter setting. If your sample is from a low-tranmission region, we recommend you to use either a uniform or a negative binomial with a low parameter setting. For a "uniform" prior, this parameter does not apply and the user can simply specify it to be "NA". |
+|  `v`  | Whether output the prior distribution of MOI or not. It is logical, "TRUE" or "FALSE". |
+|  `a`  | How to obtain the MOI distribution at the population level from individual MOI estimates, either pooling the maximum a posteriori MOI estimate for each sampled individual or using the technique called mixture distribution, "pool" vs. "mixtureDist". |
+|  `o`   | The full path to the directory where the output will be saved and the name of the output file. For example, "MOI_estimation_reuslts.RData". |
 
 #### Output
 The above example command will output a list of two objects (plus the prior distribution for MOI estimation when setting **verbose** to be TRUE). When set the argument **aggregate** to be 'pool', the output list contains one matrix which records the maximum a posteriori MOI estimate for each sampled individual, and a second matrix which records the probability distribution at the population level. The matrix at the individual level looks like the example below, with a **prob** column storing the actual probability of MOI = maxAPosMOIEst (the maximum a posteriori MOI estimate). 
-| HostID | NumDBLαTypes | maxAPosMOIEst | prob |
+| HostID | DBLa_upsBC_rep_size | MOI | Prob |
 | :--: | :---------: | :--: | :--: |
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 2 | 0.9870216 |
 | `RS1MRS1967.MID88.88.P6.dec15`  | 95 | 3 | 0.8315176 |
 
 The matrix at the population level:
-| MOI | prob |
+| MOI | Prob |
 | :--: | :--: |
 | 1 | 0.108029197 |
 | 2 | 0.224817518 |
@@ -107,7 +115,7 @@ The matrix at the population level:
 
 When set the argument **aggregate** to be 'mixtureDist', the output list again contains two matrices, one recording the full probability distribution of MOI for individual hosts, and a second one recording the probability distribution at the population level.
 The matrix for individual hosts (only listing one host as an example):
-| HostID | NumDBLαTypes | MOI | prob |
+| HostID | DBLa_upsBC_rep_size | MOI | Prob |
 | :--: | :---------: | :--: | :--: |
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 1 | 0 |
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 2 | 0.9870216 |
@@ -131,7 +139,7 @@ The matrix for individual hosts (only listing one host as an example):
 | `RS1MRS0432.MID76.76.P6.dec15` | 46 | 20 | 0 |
 
 The matrix at the population level:
-| MOI | prob |
+| MOI | Prob |
 | :--: | :--: |
 | 1 | 0.0994607006 |
 | 2 | 0.2159426383 |
@@ -154,7 +162,7 @@ The matrix at the population level:
 | 19 | 0.0006565408 |
 | 20 | 0.0020301102|
 
-MOI distributions at the population level obtained from the two approaches differ slightly. But the difference is non-significant with the example datasets from northern Ghana as determined by the Kolmogorov-Smirnov Test. Users can run both and compare MOI distributions at the population level to inspect the difference between the two. 
+MOI distributions at the population level obtained from the two approaches differ slightly. But the difference is non-significant with the example datasets sampled from Bongo District in northern Ghana as determined by the Kolmogorov-Smirnov Test. Users can run both and compare MOI distributions at the population level to inspect the difference between the two. 
 
 #### Large Dataset
 You may embed the command line to a bash script and run it on a computational cluster. That way you can request a number of nodes and memory per node for enough computational power.
