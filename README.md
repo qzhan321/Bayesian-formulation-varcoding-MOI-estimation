@@ -28,7 +28,7 @@ Here, we extend the method to a Bayesian formulation which accounts for the meas
 P(s|MOI=1): repertoire size distribution, the distribution of the number of non-upsA DBLα types sequenced given MOI = 1, which is empirically available. Examples of this distribution are given in the [section](#Running-the-script).
 - **Serial convolutions** of this size distribution: from P(s|MOI=1) to P(s|MOI=2), P(s|MOI=3), etc.
 - **Bayes’ rule** to get P(MOI=i|s), which requires the specification of a prior distribution of MOI. The prior reflects your belief on MOI distribution of your sampled population before seeing or analyzing the sequence data, for example, centering around lower values or higher values, which depends on your rough understanding and estimation of the local transmission intensity. We examined negative binomial distributions with a wide range of parameter value and a uniform distribution. The MOI estimation is not sensitive to the prior distribution of MOI for datasets sampled from Bongo District in northern Ghana. We use a uniform prior in [Tiedje and Zhan et al., *eLife*, 2023](https://doi.org/10.7554/eLife.91411.1). Nonetheless we allow users to specify their own prior and associated parameters. Details included in the following [section](#Running-the-script).
-- From individual to the population level MOI distribution, we either **pool the maximum a posteriori MOI estimate for each sampled individual**, or **use the technique called mixture distribution**. More details can be found in [Tiedje and Zhan et al., *eLife*, 2023](https://doi.org/10.7554/eLife.91411.1).
+- From individual to the population level MOI distribution, we either **pool the maximum a posteriori MOI estimate for each sampled individual**, or **use the technique called mixture distribution**. More details can be found in [Tiedje and Zhan et al., *eLife*, 2023](https://doi.org/10.7554/eLife.91411.1).
 
 ## Applying the Bayesian Formulation of MOI estimation to New Datasets
 The script **[MOI_estimation.R](https://github.com/qzhan321/Bayesian-formulation-varcoding-MOI-estimation/blob/main/scripts/MOI_estimation.R)** is needed. 
@@ -46,12 +46,14 @@ It also requires a repertoire size distribution, which is a .csv file (see previ
 | :---------: | :--: | 
 | 9 | 2 |
 | 10 | 4 |
+
 Among all monoclonal infections in your datasets, 2 of them have 9 **non-upsA** DBLα types sequenced and typed successfully, and 4 of them have 10 **non-upsA** DBLα types sequenced and typed successfully.
 Alternatively, the repertoire size distribution could be in a probability format of the raw count data, or even a smoothed version of the raw count data or its corresponing probability format.
 | DBLa_upsBC_rep_size | p |
 | :---------: | :---------: | 
 | 9 | 0.004228330 |
 | 10 | 0.002114165 |
+
 Among all monoclonal infections in your datasets, there is a probability of 0.004228330 for having 9 **non-upsA** DBLα types sequenced and typed successfully, and there is probability of 0.002114165 for having 10 **non-upsA** DBLα types sequenced and typed successfully. 
 Note that our script will check whether specific values of the number of **non-upsA** DBLα types are associated with n = 0 or p = 0, i.e., no observation of these values for the number of **non-upsA** DBLα types among your monoclonal infections. By default we impute a non-zero n or p based on the mean of the nearest two neighbors' n or p. For example, if for DBLa_upsBC_rep_size = 11, n = 0 (i.e., p = 0), we impute its n or p based on that of upsBC_rep_size = 10 and upsBC_rep_size = 12.
 It is recommended to use the collection of monoclonal infection from the empirical surveys whose MOI are to be estimated. 
