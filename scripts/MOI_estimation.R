@@ -38,6 +38,7 @@ simPrior <- function(prior, size = 5, prob = 0.55, maxMOI = 20) {
     MOI_priors <- rep(1/maxMOI, maxMOI)
     names(MOI_priors) <- as.character(1:maxMOI)
   } else if (prior == "negBinom") {
+    set.seed(0)
     MOI_priors_temp <- rnbinom(1000000, size = size, prob = prob)
     MOI_priors_temp <- MOI_priors_temp[MOI_priors_temp >= 1 & MOI_priors_temp <= maxMOI]
     MOI_priors_temp_df <- data.frame("MOI" = MOI_priors_temp) %>% group_by(MOI) %>% 
