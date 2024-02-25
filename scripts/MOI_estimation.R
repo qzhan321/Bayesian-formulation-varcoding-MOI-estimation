@@ -85,7 +85,7 @@ fillInMissingOrZero <- function(repertoireSizeDistFile) {
     for (repSize_p_zero in repSizes_p_zero) {
       distances <- abs(repertoireSizeDistFile$DBLa_upsBC_rep_size-repSize_p_zero)
       neighbors_index <- sort(distances, index.return=TRUE)
-      neighbors_index <- neighbors_index$ix[1:2]
+      neighbors_index <- neighbors_index$ix[2:3]
       p_zero_index <- which(repertoireSizeDistFile$DBLa_upsBC_rep_size == repSize_p_zero)
       repertoireSizeDistFile$p[p_zero_index] <- mean(repertoireSizeDistFile$p[neighbors_index])
     }
