@@ -39,7 +39,7 @@ simPrior <- function(prior, size = 5, prob = 0.55, maxMOI = 20) {
     names(MOI_priors) <- as.character(1:maxMOI)
   } else if (prior == "negBinom") {
     set.seed(0)
-    MOI_priors_temp <- rnbinom(1000000, size = size, prob = prob)
+    MOI_priors_temp <- rnbinom(10000000, size = size, prob = prob)
     MOI_priors_temp <- MOI_priors_temp[MOI_priors_temp >= 1 & MOI_priors_temp <= maxMOI]
     MOI_priors_temp_df <- data.frame("MOI" = MOI_priors_temp) %>% group_by(MOI) %>% 
       summarise(n = n()) %>% mutate(prop = n/sum(n))
@@ -84,9 +84,9 @@ fillInMissingOrZero <- function(repertoireSizeDistFile) {
     repSizes_p_zero <- repertoireSizeDistFile$DBLa_upsBC_rep_size[repertoireSizeDistFile$p == 0]
     for (repSize_p_zero in repSizes_p_zero) {
       distances <- abs(repertoireSizeDistFile$DBLa_upsBC_rep_size-repSize_p_zero)
-      neighbors_index <- sort(distances, index.return=TRUE)
-      neighbors_index <- neighbors_index$ix[2:3]
-      p_zero_index <- which(repertoireSizeDistFile$DBLa_upsBC_rep_size == repSize_p_zero)
+      neighbors_index_list <- sort(distances, index.return=TRUE)
+      p_zero_index <- neighbors_index_list$ix[1]
+      neighbors_index <- neighbors_index_list$ix[2:3]
       repertoireSizeDistFile$p[p_zero_index] <- mean(repertoireSizeDistFile$p[neighbors_index])
     }
   }  
@@ -98,9 +98,10 @@ fillInMissingOrZero <- function(repertoireSizeDistFile) {
       neighbors_index <- neighbors_index$ix[1:2]
       missing_neighbors <- repertoireSizeDistFile %>% filter(DBLa_upsBC_rep_size %in% repertoireSizeDistFile$DBLa_upsBC_rep_size[neighbors_index]) 
       repSize_missing_dist <- data.frame(DBLa_upsBC_rep_size = repSize_missing, p = mean(missing_neighbors$p))
+      repertoireSizeDistFile <- rbind(repertoireSizeDistFile, repSize_missing_dist) %>% arrange(DBLa_upsBC_rep_size)
     }
-    repertoireSizeDistFile <- rbind(repertoireSizeDistFile, repSize_missing_dist) %>% arrange(DBLa_upsBC_rep_size)
   }
+  repertoireSizeDistFile <- repertoireSizeDistFile %>% mutate(p = p/sum(p))
   return(repertoireSizeDistFile)
 }
 repertoireSizeDistFile_no_missing <- fillInMissingOrZero(repertoireSizeDistFile)
@@ -152,55 +153,27 @@ MOIest <- function(prob_s_givenMOI, inputFile, maxMOI, repSizeLow, repSizeHigh) 
     host <- hosts[i]
     
     if (isoSize < repSizeLow) {
-      warning("The number of non-upsA DBLa type is either fewer than the lower number presented in your repertoire size distribution. Automatically assign 1 to be the MOI value.")
+      warning("The number of non-upsA DBLa type is fewer than the lower number presented in your repertoire size distribution. Automatically assign 1 to be the MOI value.")
       prob_MOI_given_isoSize <- c(1.0, rep(0.0, maxMOI - 1))
-      if (opt$aggregate == "pool") {
-        MOI_single <- data.frame("HostID" = host, "DBLa_upsBC_rep_size" = isoSize, "MOI" = c(1:maxMOI)[which.max(prob_MOI_given_isoSize)], "Prob" = max(prob_MOI_given_isoSize))
-      } else if (opt$aggregate == "mixtureDist") {
-        MOI_single <- data.frame("HostID" = host, "DBLa_upsBC_rep_size" = isoSize, "MOI" = 1:maxMOI, "Prob" = prob_MOI_given_isoSize)
-      }
-      MOIAll <- rbind(MOIAll, MOI_single)
-      next
-    }
-    
-    if (isoSize > repSizeHigh*maxMOI) {
+    } else if (isoSize > repSizeHigh*maxMOI) {
       warning("The number of non-upsA DBLa type is greater than the maximum possible one, i.e., the maximum repertoire size * maxMOI. Automatically assign maxMOI to be the MOI value.")
       prob_MOI_given_isoSize <- c(rep(0.0, maxMOI - 1), 1.0)
-      if (opt$aggregate == "pool") {
-        MOI_single <- data.frame("HostID" = host, "DBLa_upsBC_rep_size" = isoSize, "MOI" = c(1:maxMOI)[which.max(prob_MOI_given_isoSize)], "Prob" = max(prob_MOI_given_isoSize))
-      } else if (opt$aggregate == "mixtureDist") {
-        MOI_single <- data.frame("HostID" = host, "DBLa_upsBC_rep_size" = isoSize, "MOI" = 1:maxMOI, "Prob" = prob_MOI_given_isoSize)
+    } else if (isoSize >= repSizeLow & isoSize <= repSizeHigh*maxMOI) {
+      denominator <- 0
+      numerators <- rep(0, maxMOI)
+      for (MOI in 1:maxMOI) {
+        prob_s_givenMOI_single <- prob_s_givenMOI[[as.character(MOI)]][as.character(isoSize)]
+        MOI_prior_single <- MOI_priors[as.character(MOI)]
+        denominator_singleMOI <- prob_s_givenMOI_single * MOI_prior_single
+        if (!is.na(denominator_singleMOI)) {
+          names(denominator_singleMOI) <- NULL
+          numerators[MOI] <- denominator_singleMOI
+          denominator <- denominator + denominator_singleMOI
+        }
       }
-      MOIAll <- rbind(MOIAll, MOI_single)
-      next
+      stopifnot(denominator != 0)
+      prob_MOI_given_isoSize <- numerators/denominator
     }
-    
-    denominator <- 0
-    for (MOI in 1:maxMOI) {
-      prob_s_givenMOI_single <- prob_s_givenMOI[[as.character(MOI)]][as.character(isoSize)]
-      MOI_prior_single <- MOI_priors[as.character(MOI)]
-      denominator_singleMOI <- prob_s_givenMOI_single * MOI_prior_single
-      if (!is.na(denominator_singleMOI)) {
-        names(denominator_singleMOI) <- NULL
-        denominator <- denominator + denominator_singleMOI
-      }
-    }
-    stopifnot(denominator != 0)
-    
-    prob_MOI_given_isoSize <- rep(NA, length(1:maxMOI))
-    for (MOI in 1:maxMOI) {
-      prob_s_givenMOI_single <- prob_s_givenMOI[[as.character(MOI)]][as.character(isoSize)]
-      MOI_prior_single <- MOI_priors[as.character(MOI)]
-      numerator <- prob_s_givenMOI_single * MOI_prior_single
-      if (!is.na(numerator)) {
-        names(numerator) <- NULL
-        prob_MOI_given_isoSize_single <- numerator/denominator
-      } else {
-        prob_MOI_given_isoSize_single <- 0
-      }
-      prob_MOI_given_isoSize[MOI] <- prob_MOI_given_isoSize_single
-    }
-    
     if (opt$aggregate == "pool") {
       MOI_single <- data.frame("HostID" = host, "DBLa_upsBC_rep_size" = isoSize, "MOI" = c(1:maxMOI)[which.max(prob_MOI_given_isoSize)], "Prob" = max(prob_MOI_given_isoSize))
     } else if (opt$aggregate == "mixtureDist") {
